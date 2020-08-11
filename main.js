@@ -1,4 +1,36 @@
-var http = require('http');
+var express = require('express')
+var app = express()
+var fs = require('fs');
+var template = require('./lib/template.js');
+
+// route, routing
+// 갈림길에서 적당한곳에섯 자리를 잡는 것.
+// 사용자들이 여러가지 path로 들어올때 알맞은 응답을 해줌.
+//app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', function(request, response) {
+  fs.readdir('./data', function(error, filelist){
+    var title = 'Welcome';
+    var description = 'Hello, Node.js';
+    var list = template.list(filelist);
+    var html = template.HTML(title, list,
+      `<h2>${title}</h2>${description}`,
+      `<a href="/create">create</a>`
+    );
+    response.send(html);
+  });
+});
+
+app.get('/page', function(req, res) {
+  return res.send('/page');
+});
+
+
+//app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, function() {
+  console.log('Example app listening on port 3000!')
+});
+
+/*var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
@@ -141,3 +173,4 @@ var app = http.createServer(function(request,response){
     }
 });
 app.listen(3000);
+*/
