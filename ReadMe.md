@@ -34,7 +34,7 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }));
 ```
 
-```
+```node
 // bodyParser 장착 후 변화
 // request.on('data'), request.on('end') 이벤트메시지가 필요 없음.
 app.post('/test', function(request, response) {
