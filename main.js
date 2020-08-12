@@ -8,6 +8,9 @@ var sanitizeHtml = require('sanitize-html');
 var qs = require('querystring');
 var template = require('./lib/template.js');
 
+// public 폴더 안에서 정적인 파일을 찾겠다.
+app.use(express.static('public'));
+
 // bodyParser 미들웨어 장착
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -37,7 +40,10 @@ app.get('/', function(request, response) {
   var description = 'Hello, Node.js';
   var list = template.list(request.list);
   var html = template.HTML(title, list,
-    `<h2>${title}</h2>${description}`,
+    `
+    <h2>${title}</h2>${description}
+    <img src="/images/hello.jpg" style="width:300px; display:block; margin-top:10px;">
+    `,
     `<a href="/create">create</a>`
   );
   response.send(html);
@@ -143,6 +149,14 @@ app.post('/delete_process', function(request, response) {
   })
 });
 
+app.use(function(req, res, next) {
+  res.status(404).send('Sorry cant find that!');
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 
 //app.listen(3000, () => console.log('Example app listening on port 3000!'))
 app.listen(3000, function() {

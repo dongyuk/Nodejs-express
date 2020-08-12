@@ -22,6 +22,7 @@ app.get('/page/:pageId', function(request, response) {
 ## 미들웨어
 - 생코 曰 미들웨어란? 애플리케이션이 구동될 때 각각의 프로그램들이 서로와 서로를 연결해주는 작은 소프트웨어.
 - express 에서는 모든 게 미들웨어라고 할 수 있다.
+- 미들웨어는 순차적으로 실행된다.
 - 미들웨어는 함수다.
 - 함수 인자가 정해져 있다.
 ```javascript
@@ -153,4 +154,37 @@ var compression = require('compression')
 ```javascript
 // compression 미들웨어 장착(express + compression)
 app.use(compression());
+```
+
+##
+### 에러처리
+- 다른 미들웨어 함수와 동일한 방식으로 오류 처리 미들웨어 함수를 정의.
+- 단, 오류 처리 함수에는 3 개 대신 4 개의 인수가 (err, req, res, next)로 약속 됨.
+```javascript
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+```
+
+- 에러발생시 오류처리 미들웨어 호출 예제
+```javascript
+// 실행 순서
+// 에러발생 시 실행 순서  
+// 1. if (err) 구문 next(err) 실행 
+// 2. 에러처리 미들웨어(함수) 호출
+app.get('/', function (req, res, next) {
+  fs.readFile('/file-does-not-exist', function (err, data) {
+    if (err) {
+      next(err) // Pass errors to Express.
+    } else {
+      res.send(data)
+    }
+  })
+})
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 ```
