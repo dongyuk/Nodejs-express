@@ -1,7 +1,7 @@
 # Express
 ##
 ### route, routing
-- 갈림길에서 적당한곳에섯 자리를 잡는 것.
+- 갈림길에서 적당한곳에서 자리를 잡는 것.
 - 사용자들이 여러가지 path로 들어올때 알맞은 응답을 해줌.
 
 ### routing 기법 - parameter 전달
@@ -22,12 +22,12 @@ app.get('/page/:pageId', function(request, response) {
 ## 미들웨어
 - 생코 曰 미들웨어란? 애플리케이션이 구동될 때 각각의 프로그램들이 서로와 서로를 연결해주는 작은 소프트웨어.
 - express 에서는 모든 게 미들웨어라고 할 수 있다.
+- 미들웨어는 함수다.
+- 함수 인자가 정해져 있다.
 ```javascript
-// 1. 미들웨어는 함수다.
-// 2. 함수 인자가 정해져 있다.
-// 3. 인자1 request / 인자2 response / 인자3 next
-// 4. next 설명: 다음에 호출돼야 할 미들웨어 객체
-// 5. 다음 미들웨어를 호출할지 말지 이전 미들웨어가 결정한다.
+// 1. 인자1 request / 인자2 response / 인자3 next
+// 2. next 설명: 다음에 호출돼야 할 미들웨어 객체
+// 3. 다음 미들웨어를 호출할지 말지 이전 미들웨어가 결정한다.
 function(req, res, next) {
   next() // 다음 미들웨어를 실행한다.
 }
@@ -55,15 +55,25 @@ app.use('/user/:id', function (req, res, next) {
 })
 
 // 예제 3 
-// /user/:id경로에 route 된 미들웨어 기능. 
-// 이 함수는 /user/:id경로 에서 모든 유형의 HTTP 요청에 대해 실행됨.
+// 경로 및 해당 핸들러 기능 (미들웨어 시스템). 
+// 이 함수는 /user/:id경로 에 대한 GET 요청을 처리
+app.get('/user/:id', function (req, res, next) {
+  res.send('USER')
+})
+
+// 예제 4
+// 미들웨어를 여러 개 호출 가능. 
+// /user/:id 경로에서 모든 유형의 HTTP 요청에 대해 실행 됨.
+// 2번째 미들웨어(콜백함수) 호출 후 next()로 3번째 미들웨어(콜백함수) 호출.
 app.use('/user/:id', function (req, res, next) {
+  console.log('Request URL:', req.originalUrl)
+  next()
+}, function (req, res, next) {
   console.log('Request Type:', req.method)
   next()
 })
 
-
-// 예제4
+// 예제5
 // /user/:id경로 에 대한 GET 요청을 처리하는 미들웨어
 // route가 같음. 
 // /user/id 요청 시 실행 순서  
