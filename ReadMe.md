@@ -169,7 +169,6 @@ app.use(function (err, req, res, next) {
 
 - 에러발생시 오류처리 미들웨어 호출 예제
 ```javascript
-// 실행 순서
 // 에러발생 시 실행 순서  
 // 1. if (err) 구문 next(err) 실행 
 // 2. 에러처리 미들웨어(함수) 호출
