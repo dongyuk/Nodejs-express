@@ -182,6 +182,7 @@ app.get('/', function (req, res, next) {
   })
 })
 
+// 에러처리 함수
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(500).send('Something broke!')
