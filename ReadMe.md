@@ -24,19 +24,20 @@ app.get('/page/:pageId', function(request, response) {
 - 모듈 설치 순서(cmd에서 실행)    
 &nbsp;`1`. node.js 프로젝트 경로로 이동    
 &nbsp;`2`. npm install body-parser --save 입력
-```
+
+```javascript
 // 모듈 선언
 var bodyParser = require('body-parser')
 ```
-- bodyParser 미들웨어 장착
-```
+
+```javascript
 // bodyParser 미들웨어 장착(express + bodyParser)
 app.use(bodyParser.urlencoded({ extended: false }));
 ```
 
-```node
+```javascript
 // bodyParser 장착 후 변화
-// request.on('data'), request.on('end') 이벤트메시지가 필요 없음.
+// request.on('data'), request.on('end') 이벤트핸들러 필요 없음.
 app.post('/test', function(request, response) {
      
     // 장착 전-------------------------------------------------
@@ -57,5 +58,4 @@ app.post('/test', function(request, response) {
     var description = post.description;
     // -------------------------------------------------------
 });
-
 ```
