@@ -2,9 +2,15 @@ var express = require('express')
 var app = express()
 var fs = require('fs');
 var path = require('path');
+var bodyParser = require('body-parser')
 var sanitizeHtml = require('sanitize-html');
 var qs = require('querystring');
 var template = require('./lib/template.js');
+
+// 사용자가 요청할 때마다 
+// 사용자가 전송한 post 데이터를 내부적으로 분석해서 
+// bodyParser 미들웨어 장착
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // route, routing
 // 갈림길에서 적당한곳에섯 자리를 잡는 것.
