@@ -20,15 +20,20 @@ app.get('/page/:pageId', function(request, response) {
 ```
 ##
 ## 미들웨어
+- 생코 曰 미들웨어란? 애플리케이션이 구동될 때 각각의 프로그램들이 서로와 서로를 연결해주는 작은 소프트웨어.
+- express 에서는 모든 게 미들웨어라고 할 수 있다.
 ```javascript
-// 미들웨어는 함수다.
-// 함수인자가 정해져 있다.
-// 인자1 request / 인자2 response / 인자3 next
+// 1. 미들웨어는 함수다.
+// 2. 함수 인자가 정해져 있다.
+// 3. 인자1 request / 인자2 response / 인자3 next
+// 4. next 설명: 다음에 호출돼야 할 미들웨어 객체
+// 5. 다음 미들웨어를 호출할지 말지 이전 미들웨어가 결정한다.
 function(req, res, next) {
   next() // 다음 미들웨어를 실행한다.
 }
 ```
 
+- 미들웨어 예제
 ```javascript
 var express = require('express')
 var app = express()
@@ -48,6 +53,38 @@ app.use('/user/:id', function (req, res, next) {
   console.log('Request Type:', req.method)
   next()
 })
+
+// 예제 3 
+// /user/:id경로에 route 된 미들웨어 기능. 
+// 이 함수는 /user/:id경로 에서 모든 유형의 HTTP 요청에 대해 실행됨.
+app.use('/user/:id', function (req, res, next) {
+  console.log('Request Type:', req.method)
+  next()
+})
+
+
+// 예제4
+// /user/:id경로 에 대한 GET 요청을 처리하는 미들웨어
+// route가 같음. 
+// /user/id 요청 시 실행 순서  
+// 1. (1) get함수 실행. 
+// 2. callback함수 next() 실행. 다음인자의 콜백함수 실행
+// 3. 웹브라우저에 응답 후 종료.
+// (1) 요청-응답주기를 종료하므로 (2) 호출되지 않음.
+이 예제는  하위 스택을 보여줍니다 .
+// (1)
+app.get('/user/:id', function (req, res, next) {
+  console.log('ID:', req.params.id)
+  next()
+}, function (req, res, next) {
+  res.send('User Info')
+})
+
+// (2)
+app.get('/user/:id', function (req, res, next) {
+  res.end(req.params.id)
+})
+
 ```
 
 ##

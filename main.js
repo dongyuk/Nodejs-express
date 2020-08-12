@@ -14,21 +14,33 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // compression 미들웨어 장착
 app.use(compression());
 
+/*app.use(function(request, response, next) {
+  fs.readdir('./data', function(error, filelist){
+    request.list = filelist;
+    next();
+  })
+})*/
+
+app.get('*', function(request, response, next) {
+  fs.readdir('./data', function(error, filelist){
+    request.list = filelist;
+    next();
+  })
+})
+
 // route, routing
 // 갈림길에서 적당한곳에섯 자리를 잡는 것.
 // 사용자들이 여러가지 path로 들어올때 알맞은 응답을 해줌.
 //app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/', function(request, response) {
-  fs.readdir('./data', function(error, filelist){
-    var title = 'Welcome';
-    var description = 'Hello, Node.js';
-    var list = template.list(filelist);
-    var html = template.HTML(title, list,
-      `<h2>${title}</h2>${description}`,
-      `<a href="/create">create</a>`
-    );
-    response.send(html);
-  });
+  var title = 'Welcome';
+  var description = 'Hello, Node.js';
+  var list = template.list(request.list);
+  var html = template.HTML(title, list,
+    `<h2>${title}</h2>${description}`,
+    `<a href="/create">create</a>`
+  );
+  response.send(html);
 });
 
 // url path 를 통해 파라미터를 전달하는 경우 express에서 처리하는 케이스.
@@ -60,22 +72,20 @@ app.get('/page/:pageId', function(request, response) {
 });
 
 app.get('/create', function(request, response) {
-  fs.readdir('./data', function(error, filelist){
-    var title = 'WEB - create';
-    var list = template.list(filelist);
-    var html = template.HTML(title, list, `
-      <form action="/create_process" method="post">
-        <p><input type="text" name="title" placeholder="title"></p>
-        <p>
-          <textarea name="description" placeholder="description"></textarea>
-        </p>
-        <p>
-          <input type="submit">
-        </p>
-      </form>
-    `, '');
-    response.send(html);
-  });
+  var title = 'WEB - create';
+  var list = template.list(request.list);
+  var html = template.HTML(title, list, `
+    <form action="/create_process" method="post">
+      <p><input type="text" name="title" placeholder="title"></p>
+      <p>
+        <textarea name="description" placeholder="description"></textarea>
+      </p>
+      <p>
+        <input type="submit">
+      </p>
+    </form>
+  `, '');
+  response.send(html);
 });
 
 // post로 받음.
@@ -89,28 +99,26 @@ app.post('/create_process', function(request, response) {
 });
 
 app.get('/update/:pageId', function(request, response) {
-  fs.readdir('./data', function(error, filelist){
-    var filteredId = path.parse(request.params.pageId).base;
-    fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
-      var title = request.params.pageId;
-      var list = template.list(filelist);
-      var html = template.HTML(title, list,
-        `
-        <form action="/update_process" method="post">
-          <input type="hidden" name="id" value="${title}">
-          <p><input type="text" name="title" placeholder="title" value="${title}"></p>
-          <p>
-            <textarea name="description" placeholder="description">${description}</textarea>
-          </p>
-          <p>
-            <input type="submit">
-          </p>
-        </form>
-        `,
-        `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
-      );
-      response.send(html);
-    });
+  var filteredId = path.parse(request.params.pageId).base;
+  fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
+    var title = request.params.pageId;
+    var list = template.list(request.list);
+    var html = template.HTML(title, list,
+      `
+      <form action="/update_process" method="post">
+        <input type="hidden" name="id" value="${title}">
+        <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+        <p>
+          <textarea name="description" placeholder="description">${description}</textarea>
+        </p>
+        <p>
+          <input type="submit">
+        </p>
+      </form>
+      `,
+      `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+    );
+    response.send(html);
   });
 });
 
