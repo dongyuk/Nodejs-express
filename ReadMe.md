@@ -81,7 +81,6 @@ app.use('/user/:id', function (req, res, next) {
 // 2. callback함수 next() 실행. 다음인자의 콜백함수 실행
 // 3. 웹브라우저에 응답 후 종료.
 // (1) 요청-응답주기를 종료하므로 (2) 호출되지 않음.
-이 예제는  하위 스택을 보여줍니다 .
 // (1)
 app.get('/user/:id', function (req, res, next) {
   console.log('ID:', req.params.id)
@@ -94,7 +93,6 @@ app.get('/user/:id', function (req, res, next) {
 app.get('/user/:id', function (req, res, next) {
   res.end(req.params.id)
 })
-
 ```
 
 ##
