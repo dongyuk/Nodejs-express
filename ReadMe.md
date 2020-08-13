@@ -218,7 +218,7 @@ var birdRouter = require('./birds');
 
 // ...
 
-// /birds 으로 들어오면 birdRouter 미들웨어 적용
+// /birds 으로 들어오면 처리되는 birdRouter 미들웨어 적용
 app.use('/birds', birdRouter);
 ```
 
