@@ -243,8 +243,7 @@ app.use('/birds', birdRouter);
 &nbsp;`4`. cd myapp 입력 (change directory)    
 &nbsp;`5`. npm install 입력 (package.json에 있는 모듈들 다운)    
 &nbsp;`6`. npm start 입력    
-
-- npm start 시 실행 순서    
+   
 - package.json 파일 
 ```javascript
 {
@@ -264,6 +263,7 @@ app.use('/birds', birdRouter);
   }
 }
 ```
+- npm start 시 실행 순서 
 &nbsp;`1`. package.json 파일의 scripts 실행.      
 &nbsp;`2`. ./bin/www 실행    
 
