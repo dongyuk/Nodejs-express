@@ -193,18 +193,7 @@ app.use(function (err, req, res, next) {
 ## Express.Router
 - 라우터를 모듈로 생성 => 그 안에 미들웨어 기능을로드 => 일부 경로를 정의 => 기본 앱의 경로에 라우터 모듈을 마운트 예제
 
-- main.js
-```javascript
-// 모듈 선언
-var birdRouter = require('./birds'); 
-
-// ...
-
-// /birds 으로 들어오면 birdRouter 미들웨어 적용
-app.use('/birds', birdRouter);
-```
-
-- birds.js
+- birds.js(라우터 모듈)
 ```javascript
 var express = require('express')
 var router = express.Router()
@@ -219,7 +208,20 @@ router.get('/about', function (req, res) {
 })
 
 module.exports = router
+
 ```
+
+- main.js
+```javascript
+// 모듈 선언
+var birdRouter = require('./birds'); 
+
+// ...
+
+// /birds 으로 들어오면 birdRouter 미들웨어 적용
+app.use('/birds', birdRouter);
+```
+
 - case 1
 &nbsp;`1`. /birds/about 로 요청 시 birdRouter 모듈 호출     
 &nbsp;`2`. birds.js의 router.get('/about', callback) 호출    
