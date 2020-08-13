@@ -263,7 +263,7 @@ app.use('/birds', birdRouter);
   }
 }
 ```
-- npm start 시 실행 순서 
+- npm start 시 실행 순서     
 &nbsp;`1`. package.json 파일의 scripts 실행.      
 &nbsp;`2`. ./bin/www 실행    
 
