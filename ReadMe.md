@@ -188,3 +188,41 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!')
 })
 ```
+
+##
+## Express.Router
+- 라우터를 모듈로 생성하고, 그 안에 미들웨어 기능을로드하고, 일부 경로를 정의하고, 기본 앱의 경로에 라우터 모듈을 마운트
+
+- main.js
+```javascript
+// 모듈 선언
+var birdRouter = require('./birds'); 
+
+// ...
+
+// /birds 으로 들어오면 birdRouter 미들웨어 적용
+app.use('/birds', birdRouter);
+```
+
+- birds.js
+```javascript
+var express = require('express')
+var router = express.Router()
+
+// define the home page route
+router.get('/', function (req, res) {
+  res.send('Birds home page')
+})
+// define the about route
+router.get('/about', function (req, res) {
+  res.send('About birds')
+})
+
+module.exports = router
+```
+- case 1
+&nbsp;`1`. /birds/about 로 요청 시 birdRouter 모듈 호출     
+&nbsp;`2`. birds.js의 router.get('/about', callback) 호출    
+- case 2
+&nbsp;`1`. /birds 로 요청 시 birdRouter 모듈 호출     
+&nbsp;`2`. birds.js의 router.get('/', callback) 호출      
