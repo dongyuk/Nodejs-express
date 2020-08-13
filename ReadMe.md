@@ -222,9 +222,9 @@ var birdRouter = require('./birds');
 app.use('/birds', birdRouter);
 ```
 
-- case 1
-&nbsp;`1`. /birds/about 로 요청 시 birdRouter 모듈 호출     
-&nbsp;`2`. birds.js의 router.get('/about', callback) 호출    
-- case 2
-&nbsp;`1`. /birds 로 요청 시 birdRouter 모듈 호출     
-&nbsp;`2`. birds.js의 router.get('/', callback) 호출      
+- case 1    
+&nbsp;`1`. /birds/about 로 요청 시 birdRouter 모듈 호출      
+&nbsp;`2`. birds.js의 router.get('/about', callback) 호출     
+- case 2    
+&nbsp;`1`. /birds 로 요청 시 birdRouter 모듈 호출      
+&nbsp;`2`. birds.js의 router.get('/', callback) 호출          
