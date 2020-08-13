@@ -229,3 +229,38 @@ app.use('/birds', birdRouter);
 - case 2    
 &nbsp;`1`. /birds 로 요청 시 birdRouter 모듈 호출      
 &nbsp;`2`. birds.js의 router.get('/', callback) 호출          
+
+##
+## express generator
+- 개발에 필요한 기본적인 구성을 해줌
+- app.js = 메인파일
+
+
+- express generator 설치 순서(cmd에서 실행)    
+&nbsp;`1`. npm install express-generator -g 입력        
+&nbsp;`2`. express 구성을 할 프로젝트 폴더 경로로 이동.    
+&nbsp;`3`. express myapp 입력 => 해당프로젝트에 express 로 개발할 때 필요한 package.json 및 폴더 구성됨    
+&nbsp;`4`. cd myapp 입력 (change directory)    
+&nbsp;`5`. npm install 입력 (package.json에 있는 모듈들 다운)    
+&nbsp;`6`. npm start 입력    
+&nbsp;&nbsp; (1) package.json 파일의 scripts 실행.    
+&nbsp;&nbsp; (2) package.json 내용
+&nbsp;&nbsp; ```javascript
+{
+  "name": "myapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1"
+  }
+}
+&nbsp;&nbsp; ```
+
