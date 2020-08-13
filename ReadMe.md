@@ -219,6 +219,7 @@ var birdRouter = require('./birds');
 // ...
 
 // /birds 으로 들어오면 처리되는 birdRouter 미들웨어 적용
+// 라우터 모듈 안에서 라우팅할 때는 /birds 는 생략 해야 함. case1, case2에서 설명
 app.use('/birds', birdRouter);
 ```
 
